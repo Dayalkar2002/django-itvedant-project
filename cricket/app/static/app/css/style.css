@@ -20,6 +20,6 @@
  font-weight: bold;
 }
 
-.carousel-inner{
-    height: 350px;
+.bg-danger{
+    background-color: rgb(64, 75, 85);
 }
