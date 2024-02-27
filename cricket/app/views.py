@@ -1,6 +1,9 @@
 from django.shortcuts import render,redirect
 from django.views import View
 from . models import Customer,Cart,Product,OrderPlaced
+from .forms import CustomerRegistrationForm
+from django.contrib import messages
+from django.contrib.auth import logout
 # Create your views here.
 
 # def home(request):
@@ -36,12 +39,10 @@ def address(request):
 def orders(request):
  return render(request, 'app/orders.html')
 
-def change_password(request):
- return render(request, 'app/changepassword.html')
 
 def types(request, data=None):
  if data==None:
-  types=Product.objects.filter(category='EW')
+  types=Product.objects.all()
  elif data=='English':
   types=Product.objects.filter(category='EW') 
  elif data=='Kashmir':
@@ -52,11 +53,26 @@ def types(request, data=None):
   types=Product.objects.all().filter(discounted_price__gt=20000) 
  return render(request, 'app/types.html',{'types':types})
 
-def login(request):
- return render(request, 'app/login.html')
 
-def customerregistration(request):
- return render(request, 'app/customerregistration.html')
+# def customerregistration(request):
+#  return render(request, 'app/customerregistration.html')
+
+class CustomerRegistrationView(View):
+ def get(self,request):
+  form=CustomerRegistrationForm()
+  return render(request,'app/customerregistration.html',{'form':form})
+ 
+ def post(self,request):
+  form=CustomerRegistrationForm(request.POST)
+  if form.is_valid():
+   messages.success(request,'Congratulations!! Registered Succesfully')
+   form.save()
+  return render(request,'app/customerregistration.html',{'form':form})
+
 
 def checkout(request):
  return render(request, 'app/checkout.html')
+
+def log_out(request):
+ logout(request)
+ return redirect('/accounts/login/')
