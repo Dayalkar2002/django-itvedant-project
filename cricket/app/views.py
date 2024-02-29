@@ -25,7 +25,32 @@ class ProductDetailView(View):
    return render(request,'app/productdetail.html',{'product':product})
 
 def add_to_cart(request):
- return render(request, 'app/addtocart.html')
+	user = request.user
+	product = request.GET.get('prod_id')
+	product_title = Product.objects.get(id=product)
+	Cart(user=user, product=product_title).save()
+	messages.success(request, 'Product Added to Cart Successfully !!' )
+	return redirect('/cart')
+
+def show_cart(request):
+	if request.user.is_authenticated:
+		user = request.user
+		cart = Cart.objects.filter(user=user)
+		amount = 0.0
+		shipping_amount = 70.0
+		totalamount=0.0
+		cart_product = [p for p in Cart.objects.all() if p.user == request.user]
+		print(cart_product)
+		if cart_product:
+			for p in cart_product:
+				tempamount = (p.quantity * p.product.discounted_price)
+				amount += tempamount
+			totalamount = amount+shipping_amount
+			return render(request, 'app/addtocart.html', {'carts':cart, 'amount':amount, 'totalamount':totalamount})
+		else:
+			return render(request, 'app/emptycart.html')
+	else:
+		return render(request, 'app/emptycart.html')
 
 def buy_now(request):
  return render(request, 'app/buynow.html')

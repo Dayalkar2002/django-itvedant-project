@@ -11,7 +11,8 @@ urlpatterns = [
     path('',views.ProductView.as_view(),name='home'),
     # path('product-detail/', views.product_detail, name='product-detail'),
     path('product-detail/<int:id>',views.ProductDetailView.as_view(),name="product-detail"),
-    path('cart/', views.add_to_cart, name='add-to-cart'),
+    path('add-to-cart/', views.add_to_cart, name='add-to-cart'),
+    path('cart/', views.show_cart, name='showcart'),
     path('buy/', views.buy_now, name='buy-now'),
     path('profile/', views.ProfileView.as_view(), name='profile'),
     path('address/', views.address, name='address'),
@@ -25,7 +26,7 @@ urlpatterns = [
     path('types/', views.types, name='mobile'),
     path('types/<slug:data>', views.types, name='mobiledata'),
     path('accounts/login/', auth_views.LoginView.as_view(template_name='app/login.html', authentication_form=LoginForm), name='login'),
-    path('logout',views.log_out,name='logout'),
+    path('logout/',views.log_out,name='logout'),
     path('registration/', views.CustomerRegistrationView.as_view(), name='customerregistration'),
     path('checkout/', views.checkout, name='checkout'),
 ]
