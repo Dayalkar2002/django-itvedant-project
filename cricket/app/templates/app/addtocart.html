@@ -3,13 +3,13 @@
 {% block title %}Cart{% endblock title %}
 {% block main-content %}
 <div class="container my-5">
-  {% comment %} Below Code will be used by add_to_cart view {% endcomment %}
-  {% if messages %}
-  {% for message in messages %}
-   <p {% if message.tags %} class="alert alert-{{message.tags}} mb-5" {% endif %}>{{message}}</p>
-  {% endfor %}
-  {% endif %}
-<div class="row">
+ {% comment %} Below Code will be used by add_to_cart view {% endcomment %}
+ {% if messages %}
+ {% for message in messages %}
+  <p {% if message.tags %} class="alert alert-{{message.tags}} mb-5" {% endif %}>{{message}}</p>
+ {% endfor %}
+ {% endif %}
+ <div class="row">
   <h1 class="text-center mb-5">Shopping Cart</h1>
   <div class="col-sm-8">
   <div class="card">
@@ -22,6 +22,7 @@
      <div class="col-sm-9">
       <div>
        <h5>{{cart.product.title}}</h5>
+       <p class="mb-2 text-muted small">{{cart.product.description}}</p>
        <div class="my-3">
         <label for="quantity">Quantity:</label>
         <a class="minus-cart btn" pid="{{cart.product.id}}"><i class="fas fa-minus-square fa-lg"></i></a>
@@ -33,10 +34,8 @@
         <p class="mb-0"><span><strong>Rs. {{cart.product.discounted_price}}</strong></span></p>
        </div>
       </div>
-
      </div>
     </div>
-
     {% endfor %}
    </div>
    </div>
